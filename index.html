@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+  <!-- Load Firebase scripts as modules -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
 </head>
 <body>
 
@@ -18,15 +19,17 @@
 
 <p>If you click the "Submit" button, the form-data will be sent to Firestore.</p>
 
-<script>
+<script type="module">
   const firebaseConfig = {
-  apiKey: "AIzaSyAK-nJvyQYRjtQ7Mpum5r4ZAe1efP7qtg0",
-  authDomain: "basicfirebaseoperations.firebaseapp.com",
-  projectId: "basicfirebaseoperations",
-  storageBucket: "basicfirebaseoperations.appspot.com",
-  messagingSenderId: "7667569942",
-  appId: "1:7667569942:web:b50afe2d7030236c2a2c37"
-};
+    apiKey: "AIzaSyAK-nJvyQYRjtQ7Mg0",
+    authDomain: "basicfireaseapp.com",
+    projectId: "basicfirebions",
+    storageBucket: "basicfirebaseopt.com",
+    messagingSenderId: "766752",
+    appId: "1:7667569942:web:b50afe2d72c37"
+  };
+
+  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
@@ -49,3 +52,4 @@
 </script>
 </body>
 </html>
+
