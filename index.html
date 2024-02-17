@@ -1,60 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!-- Load Firebase scripts as modules -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firebase CRUD Operations</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+    }
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="submit"] {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
 
-<h2>HTML Forms</h2>
+<form id="dataForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required>
+    <br>
+    <input type="submit" value="Submit">
+</form>
 
-<div>
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <button type="button" onclick="setNameAge()">Submit</button>
-</div> 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
 
-<p>If you click the "Submit" button, the form-data will be sent to Firestore.</p>
+<script>
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-<script type="module">
-   // Initialize Firebase
-  import firebase from "firebase/app";
-  import "firebase/firestore";
-  const firebaseConfig = {
-    apiKey: "AIzaSyAK-nJvyQYRjtQ7Mg0",
-    authDomain: "basicfireaseapp.com",
-    projectId: "basicfirebions",
-    storageBucket: "basicfirebaseopt.com",
-    messagingSenderId: "766752",
-    appId: "1:7667569942:web:b50afe2d72c37"
-  };
+// Form submission
+document.getElementById('dataForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+    // Get input values
+    const name = document.getElementById('name').value;
+    const age = document.getElementById('age').value;
 
-  // Define setNameAge function
-  function setNameAge() {
-    const fname = document.getElementById('fname').value;
-    const lname = document.getElementById('lname').value;
-
+    // Add data to Firestore
     db.collection("users").add({
-      name: fname + ' ' + lname,
-      age: 32 // You can get age from another input field similarly
-    }).then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-      // Reset form after successful submission
-      document.getElementById('fname').value = '';
-      document.getElementById('lname').value = '';
-    }).catch((error) => {
-      console.error("Error adding document: ", error);
+        name: name,
+        age: age
+    })
+    .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        // Reset form after successful submission
+        document.getElementById('dataForm').reset();
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
     });
-  }
+});
 </script>
+
 </body>
 </html>
-
-
