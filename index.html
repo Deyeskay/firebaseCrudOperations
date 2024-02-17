@@ -1,94 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Firebase CRUD Operations</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f5f5f5;
-    }
-    form {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    input[type="text"],
-    input[type="number"],
-    input[type="submit"] {
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-    input[type="submit"] {
-        background-color: #4caf50;
-        color: white;
-        cursor: pointer;
-    }
-</style>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insert Name and Age</title>
+  <!-- Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-database.js"></script>
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAK-nJvyQYRjtQ7Mpum5r4ZAe1efP7qtg0",
+    authDomain: "basicfirebaseoperations.firebaseapp.com",
+    projectId: "basicfirebaseoperations",
+    storageBucket: "basicfirebaseoperations.appspot.com",
+    messagingSenderId: "7667569942",
+    appId: "1:7667569942:web:b50afe2d7030236c2a2c37"
+    };
 
-<form id="dataForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
-    <br>
-    <label for="age">Age:</label>
-    <input type="number" id="age" name="age" required>
-    <br>
-    <input type="submit" value="Submit">
-</form>
+    firebase.initializeApp(firebaseConfig);
 
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+    // Reference to the Firebase database
+    const database = firebase.database();
 
-<script>
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+    // Function to insert name and age into the database
+    function insertData() {
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
 
-// Form submission
-document.getElementById('dataForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    // Get input values
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-
-    // Add data to Firestore
-    db.collection("users").add({
+      // Push data to the database
+      database.ref('users').push({
         name: name,
         age: age
-    })
-    .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-        // Reset form after successful submission
-        document.getElementById('dataForm').reset();
-    })
-    .catch((error) => {
-        console.error("Error adding document: ", error);
-    });
-});
-</script>
+      });
 
+      // Clear input fields after submission
+      document.getElementById('name').value = '';
+      document.getElementById('age').value = '';
+    }
+  </script>
+</head>
+<body>
+  <h1>Insert Name and Age</h1>
+  <form onsubmit="insertData(); return false;">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required>
+    <br>
+    <label for="age">Age:</label>
+    <input type="number" id="age" required>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
 </body>
 </html>
