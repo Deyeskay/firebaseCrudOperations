@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <script src=
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js">
-    </script>
-   <script src=
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js">
-    </script>
-  </head>
+<head>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+</head>
 <body>
 
 <h2>HTML Forms</h2>
@@ -20,14 +16,10 @@
   <button type="button" onclick="setNameAge()">Submit</button>
 </div> 
 
-<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+<p>If you click the "Submit" button, the form-data will be sent to Firestore.</p>
 
-</body>
-
-
-     
-    <script>
-        const firebaseConfig = {
+<script>
+  const firebaseConfig = {
   apiKey: "AIzaSyAK-nJvyQYRjtQ7Mpum5r4ZAe1efP7qtg0",
   authDomain: "basicfirebaseoperations.firebaseapp.com",
   projectId: "basicfirebaseoperations",
@@ -35,16 +27,25 @@
   messagingSenderId: "7667569942",
   appId: "1:7667569942:web:b50afe2d7030236c2a2c37"
 };
- 
-        firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-   function   setNameAge(){
-          firebase.firestore().collection("users").set({
-        name: "ayyappa",
-        age: 32
-      })
-      }
-        
-    </script>
+  function setNameAge() {
+    const fname = document.getElementById('fname').value;
+    const lname = document.getElementById('lname').value;
+
+    db.collection("users").add({
+      name: fname + ' ' + lname,
+      age: 32 // You can get age from another input field similarly
+    }).then((docRef) => {
+      console.log("Document written with ID: ", docRef.id);
+      // Reset form after successful submission
+      document.getElementById('fname').value = '';
+      document.getElementById('lname').value = '';
+    }).catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+  }
+</script>
+</body>
 </html>
-
